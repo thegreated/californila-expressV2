@@ -1,0 +1,87 @@
+.californila-container{
+    margin:50px;padding:0;
+}
+.californila-container .californila-box{
+    padding:20px;margin:20px; border:1px solid black; width:30%;
+}
+
+.californila-column {
+    float: left;
+    width: 13%;
+    padding: 0 10px;
+     margin:10px;
+  }
+  .californila-column-5 {
+    float: left;
+    width: 43%;
+    padding: 0 10px;
+  }
+  .californila-column-3 {
+    float: left;
+    width: 33%;
+    padding: 0 10px;
+  }
+  
+  
+  
+  /* Remove extra left and right margins, due to padding */
+  .californila-row {margin: 0 -5px;padding:50px;}
+  
+  /* Clear floats after the columns */
+  .californila-row:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+  
+  /* Responsive columns */
+  @media screen and (max-width: 600px) {
+    .column {
+      width: 100%;
+      display: block;
+      margin-bottom: 20px;
+    }
+  }
+  
+  /* Style the counter cards */
+  .californila-card {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    padding: 16px;
+    text-align: center;
+    background-color: #f1f1f1;
+  }
+  .californila-h3{
+    
+      font-weight: bold;
+    font-family: 'Sriracha', cursive;
+      font-size: 30px
+      
+      ;
+  }
+  .californila-h4{
+    font-weight: bold;
+  }
+
+  #customers {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+  }
+  
+  #customers td, #customers th {
+    border: 1px solid #ddd;
+    padding: 8px;
+  }
+  
+  #customers tr:nth-child(even){background-color: #f2f2f2;}
+  
+  #customers tr:hover {background-color: #ddd;}
+  
+  #customers th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #4CAF50;
+    color: white;
+  }
