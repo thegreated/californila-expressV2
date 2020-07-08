@@ -22,13 +22,10 @@ class Warehouse
     }
 
 
-
-
     public	function warehouse_list() {
 
-
         $prefix = 'warehouseList_';
-
+        
         $cmb_rest = new_cmb2_box( array(
             'id'            => $prefix . 'metabox',
             'title'         => esc_html__( 'Warehouse Details', 'warehouseList' ),

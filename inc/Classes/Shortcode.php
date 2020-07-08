@@ -152,7 +152,7 @@ class Shortcode extends BaseController
     ** Dashboard united states warehouse
     */
     public function us_warehouse(){
-        $args = array( 'post_type'   => 'address','post_status' => 'publish',"s" => 'Unites States');
+        $args = array( 'post_type'   => 'address','post_status' => 'publish',"s" => 'United States');
         $us_address = new \WP_Query( $args );
         if( $us_address->have_posts() ) :
             $warehouse_data = '';
@@ -228,44 +228,29 @@ class Shortcode extends BaseController
         global $wpdb;
         $addressList = '';
         $test_data = 1;
-        $user_address = $wpdb->get_results( "SELECT ad.default_address , ad.id, ad.post_id, ad.first_name,ad.last_name,ad.address_name,ad.delivery_address,ad.states,ad.zipcode,ad.type,co.name FROM wp_3_user_address as ad INNER JOIN  wp_3_countrylist as co ON co.id = ad.country_id WHERE ad.user_id=".get_current_user_id());
+        $user_address = $wpdb->get_results( "SELECT * FROM wp_3_user_address WHERE user_id=".get_current_user_id());
         //var_dump($user_address);
         foreach ( $user_address as $address )   {
-            if($address->type == "Home Delivery"){
+          
                 $addressList .= '<tr>
 				   <th scope="row">'.$address->first_name.'  '.$address->last_name.'</th>
 				  <td>'.$address->address_name.'  '.$address->delivery_address.' '.$address->states.'  '.$address->city.' '.$address->zipcode.'</td>
-				  <td>'.$address->name.' </td>
-				  <td>'.$address->type.' </td>
-				  <td> <label><input type="radio" id="defaultAddress" name="defaultAddress" value="'.$address->id.'" onclick="javascript:makeDefaultAddress('.$address->id.');" ';
+		
+                  <td> <label><input type="radio" id="defaultAddress" name="defaultAddress" value="'.$address->id.'" onclick="javascript:makeDefaultAddress('.$address->id.');" ';
+                  
                 if($address->default_address) {
                     $addressList .=  'checked';
                 }
-                $addressList .= '><span class="lbl padding-8"></span></label> </td>
-				  <td><input type="button" class="btn btn-danger"  onclick="javascript:ConfirmDelete('.$address->id.','.$test_data.');" value="delete" /></td>		  
-				</tr>';
+                $addressList .= '><span class="lbl padding-8"></span></label> </td>';
+
+                 if(!$address->default_address) {
+                    $addressList .= '<td><input type="button" class="btn btn-danger"  onclick="javascript:ConfirmDelete('.$address->id.','.$test_data.');" value="delete" /></td>';
+                 }  
+                  
+				 $addressList .='</tr>';
 
 
-            }else{
-                $content_post = get_post($address->post_id);
-                $address_full  = get_post_meta( $address->post_id, 'addressList_shop_address', true );
-                $country  = get_post_meta( $address->post_id, 'addressList_shop_country', true );
-                //var_dump($content_post);
-
-                $addressList .= '<tr>
-				  <th scope="row">'.$address->first_name.'  '.$address->last_name.'</th>
-				  <td>'.$address_full.'</td>
-				  <td>'.$country.'</td>
-				  <td>'.$address->type.'</td>
-				  <td> <label><input type="radio" id="defaultAddress" name="defaultAddress" value="'.$address->id.'" onclick="javascript:makeDefaultAddress('.$address->id.');"';
-                if($address->default_address) {
-                    $addressList .=  'checked';
-                }
-                $addressList .= '><span class="lbl padding-8"></span></label> </td>
-				 <td><input type="button" class="btn btn-danger"   onclick="javascript:ConfirmDelete('.$address->id.', '.$test_data.');" value="delete" /></td>  
-				</tr>';
-
-            }
+         
 
         }
 
@@ -744,11 +729,13 @@ class Shortcode extends BaseController
                 $warehouse = get_post_meta($package->post_id,'package_list_warehouse',true);
                 $merchant = get_post_meta($package->post_id,'package_list_merchant_name',true);
                 $type = get_post_meta($package->post_id,'package_list_type',true);
+                
                 $datetime = date("F j, Y, g:i a",$datetime_format);
                 $number_of_date = $this->get_number_of_dates($datetime);
                 $color = ($number_of_date <= 30) ? 'default' : 'danger';
                 $modsta = "Ready To Ship";
                 $quantity = get_post_meta($package->post_id,'package_list_quantity',true);
+
                 if($status == "On Box" || $status == ""){
 
                 }elseif($type == $order['order']){
@@ -764,24 +751,18 @@ class Shortcode extends BaseController
                     echo '<td>x' . $quantity . '</td>';
                     echo '<td>
 ';
-       if($status == "Ready To Ship") {
-           echo ' <button onclick="javascript:change_to_reserve(' . $package->post_id . ',1);" class="btn btn-icon btn-primary" type="button"><span class="btn-inner--icon"><i class="ni ni-bold-down"></i></span></button>';
-       }
-  echo ' <a href="../view-package/?packages=' . $package->post_id. '" class="btn btn-icon btn-primary" type="button"><span class="btn-inner--icon"><i class="ni ni-settings-gear-65"></i></span></a>
+                    if($status == "Ready To Ship") {
+                        echo ' <button onclick="javascript:change_to_reserve(' . $package->post_id . ',1);" class="btn btn-icon btn-primary" type="button"><span class="btn-inner--icon"><i class="ni ni-bold-down"></i></span></button>';
+                    }
+                     echo ' <a href="../view-package/?packages=' . $package->post_id. '" class="btn btn-icon btn-primary" type="button"><span class="btn-inner--icon"><i class="ni ni-settings-gear-65"></i></span></a>
                                 </td>';
 
                     echo '</tr>';
-                }
-            }
-            echo   '</tbody></table>';
-        }else{
-            echo '  <div class="row" style="margin:20px">
-                            <div class="alert alert-warning" role="alert">
-                                <strong>Warning!</strong> You need to have a default address in order to proceed on package list.
-                                                            click <a href="#">Click here </a> to add an new default address.
-                            </div>
-                         </div>';
-        }
+                   }
+
+                 }
+                     echo   '</tbody></table>';
+              }
 
     }
     public function get_packages_standby($order)

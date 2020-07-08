@@ -354,31 +354,33 @@ class Packages
     public function package_button_data(){
         global $wpdb;
         $user_id = get_current_user_id();
-        $packages = $wpdb->get_results('SELECT post_id FROM '.$wpdb->prefix.'postmeta WHERE meta_key="package_list_user_id" AND meta_value="'.$user_id.'" ' );
+        $packages = $wpdb->get_results('SELECT post_id FROM '.$wpdb->prefix.'postmeta WHERE meta_key="package_list_user_id" AND meta_value="'.$user_id.'"  ' );
         $countpakage = count($packages);
         $i = 0;
         $j = 0;
         $k = 0;
         $l == 0;
         foreach ($packages as $package){
-            if(get_post_meta( $package->post_id, 'package_list_status', true )  ==  "Pick up" ){$i++;}
+            if(get_post_meta( $package->post_id, 'package_list_status', true ) == "Pick up" ){$i++;}
             if(get_post_meta( $package->post_id, 'package_list_status', true ) == "Ready To Ship"){$j++;}
             if(get_post_meta( $package->post_id, 'package_list_status', true ) == "On Box"){$k++;}
             if(get_post_meta( $package->post_id, 'package_list_status', true ) == "Schedule To Ship"){$l++;}
 
         }
+        if(!empty($packages)){
        // echo $i .' '.$j;
-        if($i == 0 && $j != 0){
-            echo '<button type="button" class="btn btn-outline-warning" data-toggle="modal" data-target="#shipment_modal">
-              Ship the packages
-              </button>';
-        }elseif($i == 0 ) {
-            
-            echo '
-            <a class="btn btn-primary"   href="../purchase">Proceed to purchase</a>
-            <button type="button"  class="btn btn-outline-success" data-toggle="modal" data-target="#reset_shipment_valid" >
-             Reset Shipment Schedule
-              </button>';
+            if($i == 0 && $j != 0){
+                echo '<button type="button" class="btn btn-outline-warning" data-toggle="modal" data-target="#shipment_modal">
+                Ship the packages
+                </button>';
+            }elseif($i == 0 ) {
+                
+                echo '
+                <a class="btn btn-primary"   href="../purchase">Proceed to purchase</a>
+                <button type="button"  class="btn btn-outline-success" data-toggle="modal" data-target="#reset_shipment_valid" >
+                Reset Shipment Schedule
+                </button>';
+            }
         }
 
     }

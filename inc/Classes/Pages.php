@@ -17,7 +17,7 @@ class Pages extends BaseController
 
     public function register()
     {
-
+        //dashboard
         $page = new Pages();
         $title = 'orders';
         $page->setPagesData($title);
