@@ -41,6 +41,8 @@ class Pages extends BaseController
         $page->setPagesData($title);
         $title = 'packages-personal-shopper';
         $page->setPagesData($title);
+        $title = 'forgot-password';
+        $page->setPagesData($title);
         //
         $title = 'login';
         $page->setPagesData($title);
@@ -52,7 +54,7 @@ class Pages extends BaseController
         $page->setPagesData($title);
         $title = 'packages';
         $page->setPagesData($title);
-        $title = 'forgot-password';
+        $title = 'prohibited-items';
         $page->setPagesData($title);
 
 

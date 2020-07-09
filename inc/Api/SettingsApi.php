@@ -99,7 +99,7 @@ class SettingsApi
 	public function registerCustomFields()
 	{
 		// register setting
-		register_post_type( $this->labelCptName, $this->labelData);
+	//	register_post_type( $this->labelCptName, $this->labelData);
 
 	}
 
